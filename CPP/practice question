@@ -21,6 +21,37 @@ class Solution {
 };
 
 
+https://leetcode.com/problems/valid-palindrome-ii/submissions/1900826239/
+
+class Solution {
+public:
+    bool checkpalindrome(string s, int i, int j) {
+        while (i < j) {
+            if (s[i] != s[j]) {
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+
+    bool validPalindrome(string s) {
+        int lo = 0;
+        int hi = s.size() - 1;
+
+        while (lo < hi) {
+            if (s[lo] != s[hi]) {
+                return checkpalindrome(s, lo + 1, hi) || checkpalindrome(s, lo, hi - 1);
+            }
+            lo++;
+            hi--;
+        }
+        return true;
+    }
+};
+
+
 
 
 
@@ -640,6 +671,50 @@ public:
     }
 };
 
+remove duplicate
+
+string reverseuplicate(string s) {
+    vector<bool>visited(256,false);
+    string res = "";
+    for(char i : s){
+        if(!visited[i]){
+            visited[i]= true;
+            res.push_back(i);
+        }
+    }
+    return res;
+
+
+
+}
+
+
+
+
+
+https://leetcode.com/problems/valid-anagram/
+
+
+
+class Solution {               
+public:
+    bool isAnagram(string s, string t) {
+        if(s.length() != t.length()){
+            return false;
+        }
+        int arr[26] = {0};
+        for(int i=0; i<s.length(); i++){
+            arr[s[i]-'a']++;
+            arr[t[i]-'a']--;
+        }
+        for(int i=0; i<26; i++){
+            if(arr[i] != 0){
+                return false;
+            }
+        }
+        return true;
+    }
+};
 
 
 
