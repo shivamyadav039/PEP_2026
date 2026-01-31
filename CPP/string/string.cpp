@@ -12,3 +12,16 @@
         return true;
     }
 };
+
+find first repchar
+
+string firstRepChar(string s) {
+    unordered_set<char> seen;
+    for (char c : s) {
+        if (seen.count(c)) {
+            return string(1, c);
+        }
+        seen.insert(c);
+    }
+    return "";
+}
