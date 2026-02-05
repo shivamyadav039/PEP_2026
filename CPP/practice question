@@ -793,5 +793,137 @@ public:
 
 
 
+Linkedlist
+
+
+
+
+
+
+https://leetcode.com/problems/middle-of-the-linked-list/description/?source=submission-ac
+
+
+
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast != NULL != NULL && fast->next != NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
+
+    }
+};
+
+
+
+
+https://leetcode.com/problems/reverse-linked-list/description/?source=submission-ac
+
+
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        // ListNode* prev = nullptr;
+        // ListNode* curr = head;
+        // while (curr != nullptr) {
+        //     ListNode* temp = curr->next; 
+        //     curr->next = prev;            
+        //     prev = curr;                  
+        //     curr = temp;                  
+        // }
+        // return prev; 
+        ListNode* prev = NULL;
+        ListNode* curr = head;
+        ListNode* next ;
+        while(curr!=NULL){
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+};
+
+
+
+
+https://leetcode.com/problems/palindrome-linked-list/description/
+
+
+class Solution {
+public:
+    ListNode* reverse(ListNode* head){
+        ListNode* prev = NULL;
+        ListNode* curr = head;
+        ListNode* nextnode;
+        while(curr!=NULL){
+            nextnode = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = nextnode;
+        }
+        return prev;
+    }
+    bool isPalindrome(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast!=NULL && fast->next != NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        slow = reverse(slow);
+        ListNode* p1 = head;
+        ListNode* p2 = slow;
+
+        while(p1!=slow && p2!=NULL){
+            if(p1->val != p2->val){
+                return false;
+            }
+            p1 = p1->next;
+            p2 = p2->next;
+        }
+        return true;
+
+        
+    }
+};
+
+https://leetcode.com/problems/remove-duplicates-from-sorted-list/description/
+
+
+
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        if(head == NULL) return head;
+
+        ListNode* curr = head;
+
+        while(curr != NULL && curr->next != NULL){
+            if(curr->val == curr->next->val){
+                ListNode* del = curr->next;
+                curr->next = curr->next->next;
+                delete del;
+            } 
+            else{
+                curr = curr->next;
+            }
+        }
+        return head;
+    }
+};
+
+
+
+
+
+
+
+
 
 
