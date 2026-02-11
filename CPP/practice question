@@ -1066,6 +1066,240 @@ public:
     }
 };
 
+https://leetcode.com/problems/sort-list/
+
+
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        vector<int> s;
+    
+      
+        ListNode * first = head;
+        while(first){
+            s.push_back(first->val);
+            first = first->next;
+        }
+        sort(s.begin(),s.end());
+         ListNode * temp = head;
+           int n=s.size();
+
+        for(int i=0; i<n; i++){
+            temp->val=s[i];
+            temp=temp->next;
+        }
+        return head;
+
+    }
+};
+
+
+
+STACK
+
+
+
+
+
+
+https://www.geeksforgeeks.org/problems/insert-an-element-at-the-bottom-of-a-stack/1
+
+
+class Solution {
+  public:
+    stack<int> insertAtBottom(stack<int> st, int x) {
+        if(st.empty()){
+            st.push(x);
+            return st;
+        }
+        
+        int temp = st.top();
+        st.pop();
+        
+        st = insertAtBottom(st, x);
+        
+        st.push(temp);
+        return st;
+    }
+};
+
+
+
+https://leetcode.com/problems/valid-parentheses/
+
+
+
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> st;
+
+        for (char c : s) {
+            if (c == '(') st.push(')');
+            else if (c == '{') st.push('}');
+            else if (c == '[') st.push(']');
+            else {
+                if (st.empty() || st.top() != c) return false;
+                st.pop();
+            }
+        }
+        return st.empty();
+    }
+};
+
+https://www.geeksforgeeks.org/problems/infix-to-postfix-1587115620/1
+
+infix to postfix conversion using stack
+
+class Solution {
+    int prec(char c){
+        if(c=='^') return 3;
+        if(c=='*' || c=='/') return 2;
+        if(c=='+' || c=='-') return 1;
+        return -1;
+    }
+
+public:
+    string infixToPostfix(string& s){
+
+        stack<char> st;
+        string ans="";
+
+        for(int i=0;i<s.length();i++){
+
+            if(isalpha(s[i]) || isdigit(s[i])){
+                ans += s[i];
+            }
+
+            else if(s[i]=='('){
+                st.push(s[i]);
+            }
+
+            else if(s[i]==')'){
+                while(!st.empty() && st.top()!='('){
+                    ans += st.top();
+                    st.pop();
+                }
+                st.pop();
+            }
+
+            else{
+                while(!st.empty() &&
+                     (prec(st.top())>prec(s[i]) ||
+                     (prec(st.top())==prec(s[i]) && s[i]!='^'))){
+                    ans += st.top();
+                    st.pop();
+                }
+                st.push(s[i]);
+            }
+        }
+
+        while(!st.empty()){
+            ans += st.top();
+            st.pop();
+        }
+
+        return ans;
+    }
+};
+
+
+https://leetcode.com/problems/min-stack/description/
+
+
+class MinStack {
+public:
+    stack<int> mainstack;
+    stack<int> minstack;
+
+    MinStack() {
+    }
+    
+    void push(int val) {
+        mainstack.push(val);
+
+        if(minstack.empty() || val <= minstack.top()){
+            minstack.push(val);
+        }
+        else{
+            minstack.push(minstack.top());
+        }
+    }
+    
+    void pop() {
+        mainstack.pop();
+        minstack.pop();
+    }
+    
+    int top() {
+        return mainstack.top();
+    }
+    
+    int getMin() {
+        return minstack.top();   
+    }
+};
+
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack* obj = new MinStack();
+ * obj->push(val);
+ * obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->getMin();
+ */
+
+
+
+QUEUE
+
+
+
+
+
+https://www.geeksforgeeks.org/problems/reverse-first-k-elements-of-queue/1
+
+
+
+class Solution {
+  public:
+    queue<int> reverseFirstK(queue<int> q, int k) {
+        if(k > q.size() || k <= 0) return q;
+
+        int n = q.size();
+        stack<int> st;
+
+        for(int i=0;i<k;i++){
+            st.push(q.front());
+            q.pop();
+        }
+
+        while(!st.empty()){
+            q.push(st.top());
+            st.pop();
+        }
+
+        for(int i=0;i<n-k;i++){
+            q.push(q.front());
+            q.pop();
+        }
+
+        return q;
+    }
+};
 
 
 
