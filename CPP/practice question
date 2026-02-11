@@ -1303,6 +1303,82 @@ class Solution {
 
 
 
+https://www.geeksforgeeks.org/problems/interleave-the-first-half-of-the-queue-with-second-half/1
+
+
+
+
+class Solution {
+  public:
+    void rearrangeQueue(queue<int> &q) {
+        // code here
+        stack<int> st;
+        int halfsize = q.size()/2;
+        
+        //push first half elements into stack
+        for(int i=0;i<halfsize;i++){
+            st.push(q.front());
+            q.pop();
+        }
+
+        //enqueue back the stack element
+        ////queue 16,17,18,19,20,,15,14,13,12,11
+        while(!st.empty()){
+            q.push(st.top());
+            st.pop();            
+        }
+
+        //dequeue the first half element of queue and enqueue them back
+        //queue. 15,14,13,12,11,16,17,18,19,20
+        for(int i=0;i<halfsize;i++){
+            q.push(q.front());
+            q.pop();
+        }
+
+        //again push the first  half element in stack
+        //queue 16.17.18,19,20,stack 11,12,13,14,15
+        for(int i=0;i<halfsize;i++){
+            st.push(q.front());
+            q.pop();
+        }
+
+        //interleave the elements of queue and stack
+        //queue 11,16,12,17,13,18,14,19,15,20
+        while(!st.empty()){
+            q.push(st.top());
+            st.pop();
+            q.push(q.front());
+            q.pop();
+        }
+    }
+};
+
+
+https://www.geeksforgeeks.org/problems/immediate-smaller-element1142/1
+
+
+class Solution {
+  public:
+    vector<int> nextSmallerEle(vector<int>& arr) {
+        //  code here
+        int n = arr.size();
+        stack<int> st;
+        vector<int> nse(n);
+        for(int i=n-1;i>=0;i--){
+            while(!st.empty() && st.top()>=arr[i]){
+                st.pop();
+            }
+            if(st.empty()){
+                nse[i] = -1;
+            }
+            else{
+                nse[i]=st.top();
+            }
+            st.push(arr[i]);
+        }
+        return nse;
+    }
+};
 
 
 
