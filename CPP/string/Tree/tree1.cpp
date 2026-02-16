@@ -20,6 +20,14 @@ public:
         inorder(root->right);
     }
 
+        void preorder(Node* root){
+        if(root==NULL) return;
+        
+        cout<<root->data<<" ";
+        preorder(root->left);
+        preorder(root->right);
+    }
+
     int count(Node* root){
         if(root == NULL) return 0;
         int x = count(root->left);
