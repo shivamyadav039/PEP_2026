@@ -2128,4 +2128,390 @@ public:
         
     }
 };
+////////
+/// 
+/// 
+/// 
+/// 
+/// 
+binary search tree
+/////
+/// 
+/// 
+/// 
+/// 
+/// 
+/// 
 
+
+
+
+
+https://leetcode.com/problems/search-in-a-binary-search-tree/description/
+
+
+
+class Solution {
+public:
+    TreeNode* searchBST(TreeNode* root, int val) {
+        if(root==NULL || root->val==val) return root;
+        
+        if(val < root->val) 
+            return searchBST(root->left,val);
+        else
+            return searchBST(root->right,val);
+    }
+};
+
+
+https://leetcode.com/problems/range-sum-of-bst/description/
+
+
+class Solution {
+public:
+    int rangeSumBST(TreeNode* root, int low, int high) {
+        if(root==NULL) return 0;
+        
+        int sum = 0;
+        
+        if(root->val>=low && root->val<=high)
+            sum += root->val;
+            
+        sum += rangeSumBST(root->left,low,high);
+        sum += rangeSumBST(root->right,low,high);
+        
+        return sum;
+    }
+};
+
+
+
+https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/description/
+
+
+
+class Solution {
+public:
+    TreeNode* build (vector<int>& nums,int l,int r){
+       
+        
+        if(l > r) return NULL;  
+        
+        int mid = (l+r)/2;
+        TreeNode* node = new TreeNode(nums[mid]);
+        node->left = build(nums, l, mid-1);
+        node->right = build(nums, mid+1, r);
+        return node;
+
+    }
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        // find mid element
+        //makee nums[mid] the curr node
+        //recursively build -
+        // LST ->nums[l]...mid-1;
+        //RST -> nums[mid+1]....r
+        // return
+        
+        return build(nums,0,nums.size()-1);
+    }
+};
+
+
+
+https://leetcode.com/problems/insert-into-a-binary-search-tree/description/
+
+
+
+class Solution {
+public:
+    TreeNode* insertIntoBST(TreeNode* root, int val) {
+        
+        TreeNode* node = new TreeNode(val);
+        if(root==NULL) return node;
+        if(val > root->val){
+            root->right = insertIntoBST(root->right,val);
+
+        } 
+        else if(val < root->val) {
+            root->left = insertIntoBST(root->left,val);
+
+        }
+        
+        return root;
+    }
+};
+
+https://leetcode.com/problems/two-sum-iv-input-is-a-bst/description/
+
+class Solution {
+public:
+    void inorder(TreeNode* root,vector<int> &res){
+        if(root == NULL) return;
+        inorder(root->left,res);
+        res.push_back(root->val);
+        inorder(root->right,res);
+    }
+    bool findTarget(TreeNode* root, int k) {
+        vector<int> res;
+        inorder(root,res);
+        int l = 0;
+        int r = res.size()-1;
+        while(l<r){
+            int sum = res[l]+res[r];
+            if(sum==k){
+                return true;
+            }
+            else if(sum<k){
+                l++;
+            }
+            else{
+                r--;
+            }
+        }
+        return false;
+
+    }
+};
+
+
+
+https://leetcode.com/problems/validate-binary-search-tree/description/
+
+
+
+class Solution {
+public:
+    bool check(TreeNode* root,long long min,long long max){
+        if(!root) return true;
+        if(root->val<=min || root->val>= max) return false;
+        return check(root->left,min,root->val) && check(root->right,root->val,max);
+    }
+    bool isValidBST(TreeNode* root) {
+        if(!root) return true;
+        return check(root,LONG_MIN,LONG_MAX);
+        
+    }
+};
+
+
+
+https://www.geeksforgeeks.org/problems/predecessor-and-successor/1
+
+
+
+/* BST Node
+class Node {
+   public:
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int x){
+        data = x;
+        left = NULL;
+        right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    pair<Node*,Node*> findPredecessorSuccessor(Node* root,int key){
+        Node* pred = NULL;
+        Node* succ = NULL;
+        Node* node = root;
+
+        while(node!= NULL){
+            if(key < node->data){
+                //curr node is greater than a key - possible successor
+                succ = node;
+                node = node->left;
+            }
+            else if(key > node->data){
+                pred = node;
+                node = node->right;
+            }
+            else {
+                break;
+            }
+        }
+
+        //if we have found the node with the given key
+        if(node != NULL && node->left != NULL){
+            //find pred (max pof lst)
+            Node* temp = node->left;
+            while(temp->right !=NULL){
+                temp = temp->right;
+            }
+            pred = temp;
+        }
+
+        //find the succ(min of rst)
+        if(node != NULL && node->right != NULL){
+            Node* temp = node->right;
+            while(temp->left != NULL){
+                temp = temp->left;
+            }
+            succ = temp;
+        }
+
+        return {pred, succ};
+    }
+
+    vector<Node*> findPreSuc(Node* root, int key) {
+        // code here
+        //predecessor the node with the largest value < key
+        //successor  the node with the smallest value > key
+        
+        //to find predecessor ->>
+        
+        //if curr node value < key
+        //this node can be a possible predecessor 
+        // but something larger and still < key might exist in right subtree of this current node 
+        
+        pair<Node*,Node*> ans = findPredecessorSuccessor(root,key);
+        
+        vector<Node*> res;
+        res.push_back(ans.first);
+        res.push_back(ans.second);
+        return res;
+    }
+};
+
+
+
+https://leetcode.com/problems/delete-node-in-a-bst/description/
+
+
+ // find the node to be deleted by comparisons 
+ //restructure its childrenwhile preserving BST order
+ //There can be 3 cases for deleting a node
+ //case 1  No children (leaf node) this can be deleted directly
+ //case2.  one child -> replace the current node with its only child
+ //case 3 Two child->. To maintain the bst order , we need can either choose inorder successor (smallest value in RST) or inorder predecessor(largest value in LST) and replace with current node
+class Solution {
+public:
+    TreeNode* inorderSuccessor(TreeNode* node){
+        while(node->left != NULL){
+            node = node->left;
+
+        }
+        return node;
+    }
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(root==NULL) return NULL;
+
+        if(key<root->val){
+            root->left = deleteNode(root->left,key);
+        }
+        else if(key>root->val){
+            root->right = deleteNode(root->right,key);
+        }
+        else{
+            //case 1 : Node has no left child 
+            //in this replace the node with its right child
+            if(root->left == NULL){
+                TreeNode* temp = root->right;
+                delete root;
+                return temp;
+            }
+            //case 2 : Node has no right child 
+            // in this replace the node with its left child
+            else if(root->right == NULL){
+                TreeNode* temp = root->left;
+                delete root;
+                return temp;
+
+            }
+            //case 3 : Node has two children 
+            // find inorder successor
+            TreeNode* temp = inorderSuccessor(root->right);
+            //copy the min element value in the node which we were suppose to del
+            root->val = temp->val;
+            // delete the successor from RST(as we have already copied the value)
+            root->right = deleteNode(root->right,temp->val);
+
+        }
+        return root;
+        
+    }
+};
+
+
+https://www.geeksforgeeks.org/problems/flatten-bst-to-sorted-list--111950/1
+
+
+class Solution {
+  public:
+  void inorder(Node *root , Node* &ans){
+      if(root==NULL) return;
+      inorder(root->left,ans);
+      Node* n = new Node(root->data);
+      ans->right = n;
+      ans = ans->right;
+      inorder(root->right,ans);
+  }
+    Node *flattenBST(Node *root) {
+        // code here
+        Node * dummy = new Node(0);
+        Node* ans = dummy;
+        inorder(root,ans);
+        return dummy->right;
+        
+        
+    }
+};
+
+
+
+https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/
+
+
+
+class Solution {
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        vector<vector<int>> result ;
+
+        if(root == NULL) return result;
+
+        //outer map -> hd(automatically sorts the hd)
+        //innner map-> for level(sorts level -> top to bottom)
+        map<int ,map<int,multiset<int>>> nodes;
+
+        // each element in queue stores -> the curr node,int(hd),int (depth)
+        queue<pair<TreeNode*,pair<int,int>>> q;
+        q.push(make_pair(root,make_pair(0,0)));
+
+        while(!q.empty()){
+            pair<TreeNode*,pair<int,int>> temp = q.front();
+            q.pop();
+
+            TreeNode* node = temp.first;
+            int hd = temp.second.first;
+            int level = temp.second.second;
+
+            nodes[hd][level].insert(node->val);   // ✅ FIXED
+
+            //if left exist ->hd will -1 and level will be +1
+            if(node->left){
+                q.push(make_pair(node->left,make_pair(hd-1,level+1)));
+            }
+            if(node->right){
+                q.push(make_pair(node->right,make_pair(hd+1,level+1)));
+            }    
+        }
+
+        for(auto &i : nodes){
+            vector<int> columnAns;
+            for(auto &levelPair : i.second){
+                for(auto values : levelPair.second){
+                    columnAns.push_back(values);
+                }
+            }
+            result.push_back(columnAns);
+        }
+
+        return result;
+    }
+};
