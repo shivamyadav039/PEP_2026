@@ -12,7 +12,7 @@ vector<int> previousSmallerElement(vector<int> &arr){
     for(int i = 0; i <n; i++){
         //remove all elements smaller than or equal to current;
         while(!st.empty() && st.top() >= arr[i]){
-            st.pop();   // FIXED
+            st.pop();   
         }
 
         if(st.empty()){

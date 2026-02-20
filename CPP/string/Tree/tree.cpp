@@ -29,6 +29,14 @@ using namespace std;
     1. Full binary tree -> a binary tree is a full binary tree if every node has either 0 or 2 children
     2. Complete binary tree -> a binary tree is a complete binary tree if all levels are completely filled except possibly the last level, the last level filled from last  should left to right
 */
+
+A binary tree is balanced if for every node of the height diff b/w its left and right subtree is at most 1
+ 
+
+Binary search tree -> a binary tree is a binary search tree if for every node, the value of all the nodes in its left subtree is less than the value of the node and the value of all the nodes in its right subtree is greater than the value of the node
+inoreder traversal of a binary search tree gives the sorted order of the elements in the tree
+ predecissor of a node in a binary search tree is the node with the largest value smaller than the value of the node
+ successor of a node in a binary search tree is the node with the smallest value greater than the value of the node 
  
 int main()
 {
