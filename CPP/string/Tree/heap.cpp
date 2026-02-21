@@ -20,3 +20,9 @@ it is complete binary tree which follows heap order property. It is of two types
                         left child = 2*i+1;
                         right child = 2*i+2;
                         parent (i-1)/2;
+
+
+
+            prioroty queue is a special type of queue where elements are accessed on basis of priority , not teh inseryion __ORDER_BIG_ENDIAN__
+            --by default it has highest element priority
+            --internally it is implemented using (CBT) and max heap by default largest element always top)            
