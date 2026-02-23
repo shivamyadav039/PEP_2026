@@ -15,6 +15,7 @@ int main(){
     pq_max.push(5);
     pq_max.push(20);
     pq_max.push(50);
+    pq_max.swap()
     cout<<pq_max.size();
     cout<<endl;
     while(!pq_max.empty()){
