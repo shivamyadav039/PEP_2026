@@ -1,0 +1,27 @@
+A graph G =(V,E) consist of :
+V->set of vertices(nodes) -> An individual object in graph
+E-> Set of edges connecting pairs of vertices
+
+ 
+  directed graph -> edges have direction 
+  Undirected graph -> edges have no direction
+  weighted -> edges have values(weight/cost/distance)
+  Unweighted 
+
+
+  Path-> A sequences of vertuces connected edges
+  Cycle -> a path that start and end at rge same  vetex
+
+  Degree ->  in undirected graph -> number of edges connected to a vertex i directed graph
+                in degree -> incoming edges
+                out degree -> outgoing edges
+
+
+
+                Representation
+
+                unordered_map<int,list<int>> adjlist;
+                      adjlist[u].push_back(v);
+                    adjlist[v].push_back(u);///. remove for directed graph
+
+                unordered_map<int,list<pair <int,int>>> ////.  weigted unoreder graph
