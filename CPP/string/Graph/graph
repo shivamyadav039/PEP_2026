@@ -25,3 +25,41 @@ E-> Set of edges connecting pairs of vertices
                     adjlist[v].push_back(u);///. remove for directed graph
 
                 unordered_map<int,list<pair <int,int>>> ////.  weigted unoreder graph
+
+
+  Cycle detection in undirected graph -> DFS or BFS
+  Cycle detection in directed graph -> DFS with recursion stack or Kahn's algorithm (topological sort) 
+  
+  
+  Cycle detection
+      DIRECTED AND UNDIRECTED DFS BFS-> parent vector to track parent
+
+
+      in directed graph use only bfs not dfs anomly occured
+
+      in undirected we use both dfs and bfs
+
+      In directed graph dfs we track the parent and recursion stack
+
+
+      Topological sort
+                      order of vertices
+
+             When we write linear order of a graph for every u->v
+             u must appear before v in that odering
+
+      Topological sort is only possible for directed acyclic graph (DAG)
+             DAG -> DFS required stack to track the vertices in the current path to detect cycles
+
+
+   Point to rememeber
+             
+
+   cycle detection  
+          Undirected graph
+                          DFS->  visited,parent
+                          BFS->.  visited , queue,parent
+          
+          Directed Graph 
+                        DFS -> visited , recursion stack
+                        BFS-> kann,s algo (indegree)
