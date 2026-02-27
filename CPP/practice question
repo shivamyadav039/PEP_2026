@@ -2823,3 +2823,603 @@ class Solution {
         
     }
 };
+
+
+https://leetcode.com/problems/number-of-provinces/description/
+
+
+class Solution {
+public:
+    void dfshelper(int city,vector<vector<int>>& isConnected,vector<bool> &isVisited){
+        isVisited[city] =true;
+        for(int neighbourCity=0;neighbourCity<isConnected.size();neighbourCity++){
+            if(isConnected[city][neighbourCity]==1 && !isVisited[neighbourCity]){
+                dfshelper(neighbourCity,isConnected,isVisited);
+            }
+        }
+    }
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int n = isConnected.size();
+        vector<bool> isVisited(n,false);
+        int provinces = 0;
+        //loop over all the cities
+
+        for(int i=0;i<n;i++){
+            if(!isVisited[i]){
+                dfshelper(i,isConnected,isVisited);
+                provinces++;
+
+
+            }
+        }
+        return provinces;
+        
+    }
+};
+
+
+https://leetcode.com/problems/flood-fill/description/
+
+
+class Solution {
+public:
+    void dfs(int r,int c,vector<vector<int>>& image,int originalColor,int newColor){
+        int n = image.size();
+        int m = image[0].size();
+
+        if(r<0 || r>=n || c<0 || c>=m) return;
+        if(image[r][c] != originalColor) return;
+        image[r][c] = newColor;
+
+        // top
+
+        dfs(r-1,c,image,originalColor,newColor);
+
+        // bottom
+
+        dfs(r+1,c,image,originalColor,newColor);
+
+        // left
+
+        dfs(r,c-1,image,originalColor,newColor);
+
+        //right
+
+        dfs(r,c+1,image,originalColor,newColor);
+    }
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) { 
+        int originalColor =image[sr][sc];
+        if(originalColor == color) return image; 
+        dfs(sr, sc, image, originalColor, color);
+        return image;
+        
+    }
+};
+
+
+
+https://www.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1
+
+
+
+
+
+class Solution {
+  public:
+    bool bfs(int start,vector<vector<int>>& adj,vector<bool> &visited){
+        queue<int> q;
+        unordered_map<int,int> parent;
+        visited[start] = true;
+        q.push(start);
+        parent[start] = -1;
+        
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            for(int neigh : adj[node]){
+                if(!visited[neigh]){
+                     visited[neigh] =true;
+                     q.push(neigh);
+                     parent[neigh] = node;
+                    
+                }
+                else if(parent[node]!= neigh) return true;
+               
+                
+            }
+        }
+        return false;
+    }
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        // Code here
+        vector<vector<int>>adj(V);
+        for(auto &i : edges){
+            int u = i[0];
+            int v = i[1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        vector<bool> visited(V,false);
+        for(int i=0;i<V;i++){
+            if(!visited[i]){
+                if(bfs(i,adj,visited)) return true;
+                
+            }
+        }
+        return false;
+
+    }
+};
+
+
+using dfs
+
+
+
+
+
+
+
+class Solution {
+  public:
+
+    bool dfs(int node, int par, vector<vector<int>>& adj, vector<bool>& visited){
+        
+        visited[node] = true;
+        
+        for(int neigh : adj[node]){
+            
+            // If not visited, go deeper
+            if(!visited[neigh]){
+                if(dfs(neigh, node, adj, visited))
+                    return true;
+            }
+            
+            // If visited and not parent → cycle
+            else if(neigh != par){
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        
+        vector<vector<int>> adj(V);
+        
+        // Build adjacency list
+        for(auto &i : edges){
+            int u = i[0];
+            int v = i[1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        
+        vector<bool> visited(V, false);
+        
+        for(int i = 0; i < V; i++){
+            if(!visited[i]){
+                if(dfs(i, -1, adj, visited))
+                    return true;
+            }
+        }
+        
+        return false;
+    }
+};
+
+
+
+https://www.geeksforgeeks.org/problems/detect-cycle-in-a-directed-graph/1
+
+
+class Solution {
+  public:
+  
+    bool dfs(int node, vector<vector<int>> &adj, 
+             vector<bool> &visited, vector<bool> &rec){
+        
+        visited[node] = true;
+        rec[node] = true;   // mark in recursion stack
+        
+        for(int neigh : adj[node]){
+            
+            // If not visited → go deeper
+            if(!visited[neigh]){
+                if(dfs(neigh, adj, visited, rec))
+                    return true;
+            }
+            
+            // If visited and in recursion stack → cycle
+            else if(rec[neigh]){
+                return true;
+            }
+        }
+        
+        rec[node] = false;  // remove from recursion stack
+        return false;
+    }
+    
+    
+    bool isCyclic(int V, vector<vector<int>> &edges) {
+        
+        vector<vector<int>> adj(V);
+        
+        // Build adjacency list (Directed)
+        for(auto &i : edges){
+            int u = i[0];
+            int v = i[1];
+            adj[u].push_back(v);
+        }
+        
+        vector<bool> visited(V, false);
+        vector<bool> rec(V, false);
+        
+        for(int i = 0; i < V; i++){
+            if(!visited[i]){
+                if(dfs(i, adj, visited, rec))
+                    return true;
+            }
+        }
+        
+        return false;
+    }
+};
+
+
+
+https://www.geeksforgeeks.org/problems/topological-sort/1
+
+
+class Solution {
+    void dfs(int node,vector<vector<int>> &adj,vector<bool> &visited,stack<int> &st){
+        visited[node] = true;
+        for(auto neigh : adj[node]){
+            if(!visited[neigh]){
+                dfs(neigh,adj,visited,st);
+            }
+        }
+        st.push(node);
+    }
+  public:
+    vector<int> topoSort(int V, vector<vector<int>>& edges) {
+        // code here
+        vector<vector<int>> adj(V);
+        for(auto &i : edges){
+            int u = i[0];
+            int v = i[1];
+            adj[u].push_back(v);
+        }
+        vector<bool> visited(V,false);
+        stack<int> st;
+        // call for all visited nodes
+        
+        for(int i=0;i<V;i++){
+            if(!visited[i]){
+                //dfs
+                dfs(i,adj,visited,st);
+            }
+        }
+        vector<int> res;
+        while(!st.empty()){
+            res.push_back(st.top());
+            st.pop();
+        }
+        return res;
+        
+    }
+};
+
+
+
+https://leetcode.com/problems/number-of-islands/description/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+https://www.geeksforgeeks.org/problems/prerequisite-tasks/1
+
+
+
+class Solution {
+  public:
+    bool dfs(int node,vector<vector<int>> &adj,vector<int> &visited,vector<int> & rec){
+        visited[node] =1;
+        rec[node] =1;
+        for(auto neigh : adj[node]){
+            if(!visited[neigh]){
+                if(dfs(neigh,adj,visited,rec)){
+                    return true;
+                }
+            }
+            else if(rec[neigh]){
+                return true;
+            }
+        }
+        rec[node] = 0;
+        return false;
+    }
+    bool isPossible(int N, int P, vector<pair<int, int> >& prerequisites) {
+        // Code here
+        vector<vector<int>> adj(N);
+        for(auto & i : prerequisites){
+            int u = i.first;
+            int v = i.second;
+            
+            adj[v].push_back(u);
+        }
+        vector<int> visited(N,0);
+        vector<int> rec(N,0);
+        
+        for(int i=0;i<N;i++){
+            if(!visited[i]){
+                //dfs
+                if(dfs(i,adj,visited,rec)){
+                    return false ;
+                } 
+            }
+        }
+        return true;
+        
+    }
+};
+
+
+
+
+
+USING BFS
+
+
+KNN ALGORITHM
+
+
+class Solution {
+  public:
+  
+    bool isPossible(int N, int P, vector<pair<int, int>>& prerequisites) {
+        
+        vector<vector<int>> adj(N);
+        
+        // Build graph
+        for(auto &i : prerequisites){
+            int u = i.first;
+            int v = i.second;
+            adj[v].push_back(u);
+        }
+        
+        vector<int> indegree(N, 0);
+        
+        // Calculate indegree
+        for(int i = 0; i < N; i++){
+            for(auto neigh : adj[i]){
+                indegree[neigh]++;
+            }
+        }
+        
+        queue<int> q;
+        
+        // Push nodes with indegree 0
+        for(int i = 0; i < N; i++){
+            if(indegree[i] == 0){
+                q.push(i);
+            }
+        }
+        
+        int count = 0;
+        
+        // Kahn's Algorithm
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            count++;
+            
+            for(auto neigh : adj[node]){
+                indegree[neigh]--;
+                if(indegree[neigh] == 0){
+                    q.push(neigh);
+                }
+            }
+        }
+        
+        // If all nodes processed → no cycle
+        return count == N;
+    }
+};
+
+
+https://www.geeksforgeeks.org/problems/course-schedule/1
+
+
+class Solution {
+  public:
+    bool dfs(int node ,vector<vector<int>> &adj,vector<int>&visited,vector<int> & rec,vector<int> &res ){
+        visited[node] = 1;
+        rec[node] = 1;
+        
+        
+        for(auto & neigh : adj[node]){
+            if(!visited[neigh]){
+                if(dfs(neigh,adj,visited,rec,res)){
+                    return true;
+                }
+                else if(!rec[neigh]){
+                    return true;
+                }
+            }
+        }
+        rec[node] =0;
+        res.push_back(node);
+        return false;
+    }
+    vector<int> findOrder(int n, vector<vector<int>> &prerequisites) {
+        // code here
+        vector<vector<int>> adj(n);
+        vector<int> res;
+        for(auto &i : prerequisites){
+            int u = i[0];
+            int v = i[1];
+            adj[v].push_back(u);
+        }
+        vector<int> visited(n,0);
+        vector<int> rec(n,0);
+        for(int i=0;i<n;i++){
+            if(!visited[i]){
+                //dfs
+                if(dfs(i,adj,visited,rec,res)){
+                    return {};
+                    
+                    
+                    
+                }
+                
+            }
+        }
+        reverse(res.begin(),res.end());
+        return res;
+        
+    }
+};
+
+https://www.naukri.com/code360/problems/shortest-path-in-an-unweighted-graph_981297
+
+
+
+
+
+vector<int> shortestPath( vector<pair<int,int>> edges , int n , int m, int s , int t){
+
+	
+	// Write your code here
+	unordered_map<int,list<int>> adj;
+	for(int i=0;i<edges.size();i++){
+		int u = edges[i].first;
+		int v = edges[i].second;
+		adj[u].push_back(v);
+		adj[v].push_back(u);
+	}
+	unordered_map<int,bool> visited;
+	unordered_map<int,int> parent;
+	queue<int> q;
+	q.push(s);
+	parent[s] =-1;
+	visited[s] = true;
+	while(!q.empty()){
+		int node = q.front();
+		q.pop();
+		for(auto &neigh : adj[node]){
+			if(!visited[neigh]){
+				visited[neigh] = true;
+				parent[neigh] = node;
+				q.push(neigh);
+			}
+		}
+		vector<int> ans;
+
+	}
+	vector<int> ans;
+	int curr = t;
+	ans.push_back(t);
+	while(curr!=s){
+		curr = parent[curr];
+		ans.push_back(curr);
+	}
+	reverse(ans.begin(),ans.end());
+	return ans;
+		
+	
+}
+
+
+
+
+
+https://www.geeksforgeeks.org/problems/shortest-path-in-undirected-graph/1
+
+
+
+
+// User function Template for C++
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+
+    void dfs(int node, vector<vector<pair<int,int>>> &adj,
+             vector<int> &visited, stack<int> &st) {
+
+        visited[node] = 1;
+
+        for(auto &i : adj[node]) {
+            int neigh = i.first;
+            if(!visited[neigh]) {
+                dfs(neigh, adj, visited, st);
+            }
+        }
+
+        st.push(node);
+    }
+
+    vector<int> shortestPath(int V, int E, vector<vector<int>>& edges) {
+
+        vector<vector<pair<int,int>>> adj(V);
+
+        // Build graph
+        for(int i = 0; i < E; i++) {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            int w = edges[i][2];
+            adj[u].push_back({v, w});
+        }
+
+        vector<int> visited(V, 0);
+        stack<int> st;
+
+        // Topological Sort
+        for(int i = 0; i < V; i++) {
+            if(!visited[i]) {
+                dfs(i, adj, visited, st);
+            }
+        }
+
+        vector<int> dist(V, INT_MAX);
+        dist[0] = 0;   // source = 0
+
+        // Relax edges
+        while(!st.empty()) {
+            int node = st.top();
+            st.pop();
+
+            if(dist[node] != INT_MAX) {
+                for(auto &edge : adj[node]) {
+                    int neigh = edge.first;
+                    int weight = edge.second;
+
+                    if(dist[node] + weight < dist[neigh]) {
+                        dist[neigh] = dist[node] + weight;
+                    }
+                }
+            }
+        }
+
+        // Replace unreachable with -1
+        for(int i = 0; i < V; i++) {
+            if(dist[i] == INT_MAX)
+                dist[i] = -1;
+        }
+
+        return dist;
+    }
+};
