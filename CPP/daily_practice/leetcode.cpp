@@ -145,3 +145,120 @@ public:
  * obj->multAll(m);
  * int param_4 = obj->getIndex(idx);
  */
+
+
+
+
+ https://leetcode.com/problems/get-biggest-three-rhombus-sums-in-a-grid/description/?envType=daily-question&envId=2026-03-16
+
+
+
+ class Solution {
+public:
+    vector<int> getBiggestThree(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        
+        set<int> st;
+
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+
+                // size 0 rhombus
+                st.insert(grid[i][j]);
+
+                for(int k = 1; ; k++) {
+
+                    int r = i + 2*k;
+                    int left = j - k;
+                    int right = j + k;
+
+                    if(r >= m || left < 0 || right >= n) break;
+
+                    int sum = 0;
+
+                    int x = i, y = j;
+
+                    // top -> right
+                    for(int t = 0; t < k; t++) {
+                        sum += grid[x + t][y + t];
+                    }
+
+                    // right -> bottom
+                    for(int t = 0; t < k; t++) {
+                        sum += grid[x + k + t][y + k - t];
+                    }
+
+                    // bottom -> left
+                    for(int t = 0; t < k; t++) {
+                        sum += grid[x + 2*k - t][y - t];
+                    }
+
+                    // left -> top
+                    for(int t = 0; t < k; t++) {
+                        sum += grid[x + k - t][y - k + t];
+                    }
+
+                    st.insert(sum);
+                }
+            }
+        }
+
+        vector<int> ans;
+        for(auto it = st.rbegin(); it != st.rend() && ans.size() < 3; ++it) {
+            ans.push_back(*it);
+        }
+
+        return ans;
+    }
+};
+
+
+https://leetcode.com/problems/largest-submatrix-with-rearrangements/description/?envType=daily-question&envId=2026-03-17
+
+class Solution {
+public:  
+    static int largestSubmatrix(vector<vector<int>>& matrix) {
+        const int m=matrix.size(), n=matrix[0].size();
+        int area=count(matrix[0].begin(), matrix[0].end(), 1);
+        if (m==1) return area;
+        if (n==1){
+            for(int i=1; i<m; i++){
+                matrix[i][0]+=matrix[i][0]*matrix[i-1][0];
+                area=max(area, matrix[i][0]);
+            }
+            return area;
+        }
+        
+        for(int i=1; i<m; i++){
+            for(int j=0;  j<n; j++){
+                matrix[i][j]+=matrix[i][j]*matrix[i-1][j];
+            }
+            const auto& row=matrix[i];
+            int minH=i+1, maxH=0;
+            for(int x: row){
+                minH=min(minH, x);
+                maxH=max(maxH, x);
+            }
+            vector<int> freq(maxH-minH+1, 0);
+            for(int x: row){
+                freq[x-minH]++;
+            }
+            int acc=0;
+            for(int x=maxH-minH; acc<n; x--){
+                if (freq[x]>0){
+                    acc+=freq[x];
+                    area=max(area, acc*(x+minH));
+                }
+            }  
+        }
+        return area;
+    }
+};
+auto init = []()
+{ 
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    return 'c';
+}();
