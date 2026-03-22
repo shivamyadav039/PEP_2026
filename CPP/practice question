@@ -512,10 +512,8 @@ public:
 
 
 
-        https://leetcode.com/problems/find-peak-element/description/
-
-
-        class Solution {
+ https://leetcode.com/problems/find-peak-element/description/
+class Solution {
 public:
     int findPeakElement(vector<int>& nums) {
         int n=nums.size();
