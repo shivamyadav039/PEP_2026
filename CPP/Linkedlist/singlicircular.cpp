@@ -12,6 +12,7 @@ public:
     }
 };
 
+
 void insertAtBeg(Node* &head,int val){
     Node* node = new Node(val);
 
