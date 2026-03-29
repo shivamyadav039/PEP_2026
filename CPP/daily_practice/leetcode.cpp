@@ -560,3 +560,22 @@ public:
         return word;
     }
 };
+
+
+https://leetcode.com/problems/check-if-strings-can-be-made-equal-with-operations-i/description/?envType=daily-question&envId=2026-03-29
+
+class Solution {
+public:
+    bool canBeEqual(string s1, string s2) {
+        // As the length is 4 we can only swap indexes 0 <-> 2 and 1 <-> 3
+
+        // If char at index 0 doesn't match swap with index 2
+        if(s1[0] != s2[0]) swap(s1[0], s1[2]);
+
+        // If char at index 1 doesn't match swap with index 3
+        if(s1[1] != s2[1]) swap(s1[1], s1[3]);
+
+        // Check strings are equal or not
+        return s1 == s2;
+    }
+};
