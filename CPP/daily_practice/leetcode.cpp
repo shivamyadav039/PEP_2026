@@ -938,3 +938,20 @@ public:
         return mini == INT_MAX ? -1 : mini;
     }
 };
+
+
+https://leetcode.com/problems/minimum-distance-to-the-target-element/description/?envType=daily-question&envId=2026-04-13
+
+class Solution {
+public:
+    int getMinDistance(vector<int>& nums, int target, int start) {
+        int res = INT_MAX;
+        for(int i = 0;i<nums.size();i++){
+            if(nums[i]==target){
+                res = min(res,abs(i-start));
+            }
+        }
+        return res;
+        
+    }
+};
