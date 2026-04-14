@@ -3135,6 +3135,84 @@ class Solution {
 };
 
 
+https://leetcode.com/problems/course-schedule/description/
+
+class Solution {
+public:
+    bool dfs(int node,vector<vector<int>> &adj,vector<bool> & visited,vector<bool> &pathVisited){
+        visited[node] = true;
+        pathVisited[node] = true;
+        for(auto ne : adj[node]){
+            if(!visited[ne]){
+                if(dfs(ne,adj,visited,pathVisited)) return true;
+               
+            }
+            else if (pathVisited[ne]){
+                return true;
+            }
+        }
+        pathVisited[node] = false;
+        return false;
+    }
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> adj(numCourses);
+        for(auto x : prerequisites){
+            int u = x[0];
+            int v = x[1];
+            adj[v].push_back(u);
+        }
+        vector<bool> visited(numCourses,false);
+        vector<bool> pathVisited(numCourses, false);
+        for(int i=0;i<numCourses;i++){
+            if(!visited[i]){
+                if(dfs(i,adj,visited,pathVisited)) return false;
+            }
+        }
+        return true;
+        
+    }
+};
+
+https://www.geeksforgeeks.org/problems/eventual-safe-states/1
+
+
+class Solution {
+  public:
+    vector<int> safeNodes(int V, vector<vector<int>>& edges) {
+        // Code here
+        vector<vector<int>> adj(V);
+        vector<int> outdegree(V,0);
+        for(auto x : edges){
+            int u = x[0];
+            int v = x[1];
+            adj[v].push_back(u);
+            outdegree[u]++;
+        }
+        queue<int> q;
+        
+        for(int i=0;i<V;i++){
+            if(outdegree[i]==0){
+                q.push(i);
+            }
+        }
+        vector<int> safe;
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            safe.push_back(node);
+            for(auto prev : adj[node]){
+                outdegree[prev]--;
+                if(outdegree[prev]==0){
+                    q.push(prev);
+                }
+                
+            }
+        }    
+        sort(safe.begin(),safe.end());
+        return safe;
+    }
+};
+
 
 https://leetcode.com/problems/number-of-islands/description/
 
