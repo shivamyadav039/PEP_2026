@@ -1045,3 +1045,21 @@ public:
         return mindist == INT_MAX ? -1 : mindist;
     }
 };
+
+https://leetcode.com/problems/mirror-distance-of-an-integer/description/?envType=daily-question&envId=2026-04-18
+
+class Solution {
+public:
+    int mirrorDistance(int n) {
+        int rev =0;
+        int a = n;
+        while(n>0){
+            int re = n%10;
+            rev = rev*10 + re;
+
+            n=n/10;
+        }
+        return abs(a-rev);
+        
+    }
+};
